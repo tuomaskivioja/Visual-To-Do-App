@@ -1,0 +1,39 @@
+.nav {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.navBar {
+    background-color:rgb(74, 156, 228);
+    width: 100%;
+    height: 33%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.8em;
+    justify-content: center;
+}
+.navBar:hover {
+    cursor: pointer;
+}
+.navItem:hover {
+    cursor: pointer;
+}
+.navItem {
+    height: 33%;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: aqua;
+    border: solid;
+    border-color: black;
+
+}
+
+.invisible {
+    display: none;
+}

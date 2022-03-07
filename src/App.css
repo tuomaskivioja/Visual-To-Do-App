@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  height: 100vh;
 }
 
 .App-logo {
@@ -13,6 +14,17 @@
   }
 }
 
+.textfield {
+  width: 30%;
+  margin: 1em;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
