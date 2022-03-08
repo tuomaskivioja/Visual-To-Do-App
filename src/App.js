@@ -24,8 +24,24 @@ class App extends Component {
     });
   };
 
-  onSubmit = (e) => {
+  formHandler = (e) => {
     e.preventDefault();
+    let message = ''
+    const input = document.getElementById('Input')
+  
+    if (input.value === '') {
+      message = 'Please enter task'
+      document.getElementById('errorDiv').innerHTML = message
+      return true
+    }
+
+  };
+
+  onSubmit = (e) => {
+    if (this.formHandler(e)) {
+      return 1
+    }
+    document.getElementById('errorDiv').innerHTML = ''
     this.setState({
       tasks: this.state.tasks.concat(this.state.task),
       task: { text: "" },
@@ -57,9 +73,7 @@ class App extends Component {
     });
   };
 
-  test = (e) => {
-    console.log(e.target.value);
-  };
+
 
   render() {
     const { task, tasks } = this.state;
@@ -67,7 +81,8 @@ class App extends Component {
     return (
       <div className="App">
       <Nav toggleMenu = {this.toggleDropdown}/>
-        <form onSubmit={this.onSubmit} className='form'>
+        <form id='form' onSubmit={this.onSubmit} className='form'>
+        <div id='errorDiv'></div>
           <label className='form-label' htmlFor="Input">Enter Task</label>
           <input autocomplete="off" className='form-control textfield'
             onChange={this.handleChange}
