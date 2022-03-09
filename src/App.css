@@ -52,3 +52,14 @@
     transform: rotate(360deg);
   }
 }
+
+.projects {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto;
+}
+
+.form-select {
+  width: 17%;
+  margin: 1%;
+}

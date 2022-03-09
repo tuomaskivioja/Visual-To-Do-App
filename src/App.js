@@ -4,34 +4,54 @@ import Overview from "./Overview";
 import Nav from "./Nav";
 import uniqid from "uniqid";
 
+const testTask = {text: 'Hello World', priority: 'high', project: "Proj2"}
+
 class App extends Component {
+
   constructor(props) {
     super(props);
 
     this.state = {
-      task: { text: "" },
-      tasks: [],
+      projects: ["Proj1", "Proj2", "Proj3"],
+      task: {
+        text: "", priotity: "high", project: "" 
+      },
+      tasks: [testTask],
       id: uniqid(),
     };
   }
 
   handleChange = (e) => {
+
+    const input = document.getElementById('Input')
+    const select = document.getElementById('projectSelect')
     this.setState({
       task: {
-        text: e.target.value,
+        text: input.value,
         id: this.state.task.id,
+        project: select.value,
       },
     });
   };
 
   formHandler = (e) => {
     e.preventDefault();
-    let message = ''
+    let messages = []
     const input = document.getElementById('Input')
+    const select = document.getElementById('projectSelect')
   
     if (input.value === '') {
-      message = 'Please enter task'
-      document.getElementById('errorDiv').innerHTML = message
+      messages.push('Please enter task')
+    }
+
+    if (select.value === '') {
+      messages.push('Please select project')
+    }
+
+    console.log(messages)
+
+    if (messages.length > 0) {
+      document.getElementById('errorDiv').innerHTML = messages.join(' and ')
       return true
     }
 
@@ -44,7 +64,7 @@ class App extends Component {
     document.getElementById('errorDiv').innerHTML = ''
     this.setState({
       tasks: this.state.tasks.concat(this.state.task),
-      task: { text: "" },
+      task: { text: "" , project: ""},
       id: uniqid(),
     });
   };
@@ -73,6 +93,19 @@ class App extends Component {
     });
   };
 
+  editTask = (e) => {
+
+    let text = e.target
+
+    const taskListItem = e.target.parentElement
+    const inputField = document.createElement('INPUT')
+    inputField.setAttribute("type", "text")
+    inputField.setAttribute("value", text.innerHTML)
+
+    taskListItem.insertBefore(inputField, taskListItem.firstChild);
+    text.remove()
+  }
+
 
 
   render() {
@@ -84,15 +117,24 @@ class App extends Component {
         <form id='form' onSubmit={this.onSubmit} className='form'>
         <div id='errorDiv'></div>
           <label className='form-label' htmlFor="Input">Enter Task</label>
-          <input autocomplete="off" className='form-control textfield'
+          <input autoComplete="off" className='form-control textfield'
             onChange={this.handleChange}
             value={task.text}
             type="text"
             id="Input"
           ></input>
-          <button className='btn btn-primary' type="submit">Add Task</button>
+          <label htmlFor="projectSelect">Choose Project:</label>
+          <select name="projectSelect" className='form-select' id="projectSelect" onChange={this.handleChange}>
+            <option disabled selected value=''> -- select project -- </option>
+            {this.state.projects.map((value) => <option key={uniqid()} value={value}>{value}</option>)}
+          </select>
+          <button className='btn btn-primary' id='submitbutton' type="submit">Add Task</button>
         </form>
-        <Overview tasks={tasks} complete={this.complete} />
+        <div className='projects'>
+        {this.state.projects.map((project) => 
+          <Overview title= {project} editTask={this.editTask} tasks={tasks.filter((task) => {return task.project === project})} complete={this.complete} />
+        )}
+        </div>
       </div>
     );
   }
