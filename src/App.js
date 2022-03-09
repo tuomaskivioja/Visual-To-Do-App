@@ -64,7 +64,7 @@ class App extends Component {
     document.getElementById('errorDiv').innerHTML = ''
     this.setState({
       tasks: this.state.tasks.concat(this.state.task),
-      task: { text: "" , project: ""},
+      task: { text: "" , priority: "high", project: ""},
       id: uniqid(),
     });
   };
@@ -93,9 +93,21 @@ class App extends Component {
     });
   };
 
+  setTasks = (newTasks) => {
+    this.setState({
+      tasks: newTasks,
+      task: { text: "" , priority: "high", project: ""},
+      id: uniqid(),
+    })
+  };
+
   editTask = (e) => {
 
+    const task = this.state.tasks.find((element) => element.id === e.target.key)
+
     let text = e.target
+
+    let newTasks = this.state.tasks
 
     const taskListItem = e.target.parentElement
     const inputField = document.createElement('INPUT')
@@ -104,6 +116,19 @@ class App extends Component {
 
     taskListItem.insertBefore(inputField, taskListItem.firstChild);
     text.remove()
+
+    document.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+
+        newTasks.forEach((el) => {if (el === task) {
+          el.text = inputField.value
+        }}
+        )
+      this.setTasks(newTasks)
+
+      taskListItem.insertBefore(text, taskListItem.firstChild);
+      inputField.remove()
+      }})
   }
 
 
